@@ -1,16 +1,14 @@
 BINARY_NAME=benchmark
 
 build:
-	GOARCH=amd64 GOOS=darwin go build -o ${BINARY_NAME} benchmark.go
-	# GOARCH=amd64 GOOS=linux go build -o ${BINARY_NAME}-linux benchmark.go
-	# GOARCH=amd64 GOOS=windows go build -o ${BINARY_NAME}-windows benchmark.go
+	GOARCH=amd64 GOOS=darwin go build -o ./compiled/${BINARY_NAME} benchmark.go
 
 run: build
-	./${BINARY_NAME}
+	multitime ./compiled/$(BINARY_NAME) 2>&1 | tail -n +3 > ./compiled/go.time 
+
 
 clean:
 	go clean
-	rm ${BINARY_NAME}
-	# rm ${BINARY_NAME}-darwin
-	# rm ${BINARY_NAME}-linux
-	# rm ${BINARY_NAME}-windows
+	rm ./compiled/${BINARY_NAME}
+	rm ./compiled/go.time
+	
